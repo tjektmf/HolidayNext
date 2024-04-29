@@ -25,6 +25,16 @@ export default async function Page() {
         />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+      { /*
+      fetchCardData > fetchLatestInvoices(1초 후) > fetchRevenue(3초 후) 순서로 로딩됨
+
+      fetchLatestInvoices를 렌더링할 때 걸리는 1초 동안 
+      Suspense 컴포넌트 fallback으로 정한 LatestInvoicesSkeleton 컴포넌트를 렌더링함
+
+      마찬가지로 fetchRevenue를 렌더링할 때 걸리는 3초 동안 
+      Suspense 에서 지정한 LatestInvoicesSkeleton 를 렌더링함
+
+      */ }
       <Suspense fallback={<RevenueChartSkeleton />}>
           <RevenueChart/>
         </Suspense>

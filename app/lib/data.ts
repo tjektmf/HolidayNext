@@ -11,6 +11,7 @@ import {
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
 
+// fetchCardData > fetchLatestInvoices(1초 후) > fetchRevenue(3초 후) 순서로 로딩됨 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
@@ -21,6 +22,7 @@ export async function fetchRevenue() {
     // Don't do this in production :)
 
      console.log('Fetching revenue data...');
+     // 3초의 시간을 둠
      await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
@@ -37,6 +39,7 @@ export async function fetchRevenue() {
 export async function fetchLatestInvoices() {
   noStore();
   try {
+    // 1초의 시간을 둠
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
